@@ -21,11 +21,11 @@ The goal of this project is to segment brain tumors from multi-modal MRI scans (
 ## Repository Structure
 ```
 BraTS2020-Segmentation/
-├── scripts/
-│   ├── data_gen.py           # Custom data generator for loading BraTS data
-│   ├── predicted_masks.py    # Evaluation and visualization of model predictions
-│   ├── pretraitemenet.py     # Data preprocessing for BraTS dataset
-│   ├── train_loss.py         # U-Net model definition and training with various loss functions
+
+├── data_gen.py           # Custom data generator for loading BraTS data
+├── predicted_masks.py    # Evaluation and visualization of model predictions
+├── pretraitemenet.py     # Data preprocessing for BraTS dataset
+├── train_loss.py         # U-Net model definition and training with various loss functions
 ├── README.md                 # Project documentation
 ├── requirements.txt          # Python dependencies
 ├── .gitignore                # Files to ignore in Git
@@ -49,7 +49,7 @@ The project uses the BraTS 2020 dataset, which contains multi-modal MRI scans an
 4. **Preprocess Data**:
    Run the preprocessing script to convert MRI scans into 4-channel `.npy` files:
    ```bash
-   python scripts/pretraitemenet.py
+   python pretraitemenet.py
    ```
    This will create `input_data_4channels/images/` and `input_data_4channels/masks/` directories.
 5. **Set Up Data Generator**:
@@ -57,13 +57,13 @@ The project uses the BraTS 2020 dataset, which contains multi-modal MRI scans an
 6. **Train Models**:
    Train the 3D U-Net with different loss functions:
    ```bash
-   python scripts/train_loss.py
+   python train_loss.py
    ```
    Models will be saved in the current directory with names like `brats_3d_4channel_dice.h5`.
 7. **Evaluate and Visualize**:
    Generate predictions and visualize results:
    ```bash
-   python scripts/predicted_masks.py
+   python predicted_masks.py
    ```
    This will produce plots (`prediction_sample_methods_*.png`) comparing ground truth and predicted masks.
 
@@ -71,6 +71,8 @@ The project uses the BraTS 2020 dataset, which contains multi-modal MRI scans an
 
 ## Results
 The project evaluates models using Dice scores, IoU, and accuracy. Ensemble methods (intersection, majority voting, weighted averaging) improve segmentation performance. Example results are visualized in `prediction_sample_methods_*.png` files, showing comparisons between ground truth and predicted masks for five validation samples.
+
+***Performance was evaluated using the Dice Similarity Coefficient, Intersection-Over-Union (IoU), and accuracy metrics. The results demonstrated strong segmentation accuracy, with ensemble methods, particularly majority voting and weighted average, outperforming individual models. High Dice scores for enhancing tumor and edema regions underscored the framework’s ability to capture intricate 3D spatial features. Visualizations of ground truth and predicted masks for five validation samples confirmed the models’ precision and the effectiveness of ensemble approaches.***
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
