@@ -4,9 +4,9 @@ This repository contains code for brain tumor segmentation using the BraTS 2020 
 
 ## Table of Contents
 - [Project Overview](#project-overview)
+- [Repository Structure](#repository-structure)
 - [Dataset](#dataset)
 - [Usage](#usage)
-- [Kaggle Notebook](#kaggle-notebook)
 - [Results](#results)
 - [License](#license)
 
@@ -18,10 +18,59 @@ The goal of this project is to segment brain tumors from multi-modal MRI scans (
 - **Ensemble Methods**: Combining predictions from multiple models using intersection, majority voting, and weighted averaging.
 - **Visualization**: Plotting ground truth and predicted masks for qualitative evaluation.
 
+## Repository Structure
+```
+BraTS2020-Segmentation/
+├── scripts/
+│   ├── data_gen.py           # Custom data generator for loading BraTS data
+│   ├── predicted_masks.py    # Evaluation and visualization of model predictions
+│   ├── pretraitemenet.py     # Data preprocessing for BraTS dataset
+│   ├── train_loss.py         # U-Net model definition and training with various loss functions
+├── README.md                 # Project documentation
+├── requirements.txt          # Python dependencies
+├── .gitignore                # Files to ignore in Git
+└── LICENSE                   # MIT License
+```
 
 ## Dataset
 The project uses the BraTS 2020 dataset, which contains multi-modal MRI scans and segmentation masks. The dataset is available on [Kaggle](https://www.kaggle.com/datasets/awsaf49/brats20-dataset-training-validation). The preprocessing script (`pretraitemenet.py`) converts the data into 4-channel `.npy` files for efficient loading.
-- **Install Dependencies**: Install the required Python packages listed in requirements.txt:
-- pip install -r requirements.txt
 
 ## Usage
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/BraTS2020-Segmentation.git
+   cd BraTS2020-Segmentation
+   ```
+2. Install dependencies:
+   ```bash
+   pip install numpy==1.24.3 tensorflow==2.17.0 nibabel==5.1.0 matplotlib==3.7.2 scikit-learn==1.3.0 scipy==1.11.1 tqdm==4.66.1 tifffile==2023.7.10
+   ```
+3. Download the BraTS 2020 dataset from Kaggle and place it in the `BraTS2020_TrainingData/MICCAI_BraTS2020_TrainingData/` directory.
+4. **Preprocess Data**:
+   Run the preprocessing script to convert MRI scans into 4-channel `.npy` files:
+   ```bash
+   python scripts/pretraitemenet.py
+   ```
+   This will create `input_data_4channels/images/` and `input_data_4channels/masks/` directories.
+5. **Set Up Data Generator**:
+   Use the custom data generator (`data_gen.py`) to load batches of preprocessed images and masks efficiently. Configure it with a batch size and train/validation split (e.g., 75% train, 25% validation).
+6. **Train Models**:
+   Train the 3D U-Net with different loss functions:
+   ```bash
+   python scripts/train_loss.py
+   ```
+   Models will be saved in the current directory with names like `brats_3d_4channel_dice.h5`.
+7. **Evaluate and Visualize**:
+   Generate predictions and visualize results:
+   ```bash
+   python scripts/predicted_masks.py
+   ```
+   This will produce plots (`prediction_sample_methods_*.png`) comparing ground truth and predicted masks.
+
+
+
+## Results
+The project evaluates models using Dice scores, IoU, and accuracy. Ensemble methods (intersection, majority voting, weighted averaging) improve segmentation performance. Example results are visualized in `prediction_sample_methods_*.png` files, showing comparisons between ground truth and predicted masks for five validation samples.
+
+## License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
